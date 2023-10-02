@@ -1,7 +1,7 @@
 package main
 
 import (
-    "github.com/berteek/chat/internal/server"
+    "github.com/berteek/chat/internal/serving"
     "github.com/berteek/chat/internal/logging"
 )
 
@@ -12,5 +12,6 @@ func main() {
     defer logger.Flush()
 
     // run server with dependecies
-    server.Run(logger)
+    server := serving.NewServer(logger)
+    server.Run()
 }
