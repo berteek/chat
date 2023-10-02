@@ -19,10 +19,16 @@ func NewServer(logger logging.Logger) *Server {
 
 func (s *Server) Run() {
     s.startup()
+    defer s.shutdown()
 
     http.HandleFunc("/echo", handling.MakeEcho(s.logger))
-    http.ListenAndServe("localhost:8000", nil)
+    err := http.ListenAndServe("localhost:8000", nil)
+    if err != nil {
+        s.logger.Errorw("stopped listening.", "error", err.Error())
+    }
+}
 
+func (s *Server) Stop() {
     s.shutdown()
 }
 
